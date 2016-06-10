@@ -6,7 +6,7 @@ void cifrar(char mensaje[], int largo, int corrimiento);
 int indice_en_vector(char vec[], int largo, char obj);
 int calcular_largo(char mensaje[]);
 
-char alfabeto[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}; //,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+char alfabeto[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
 int main()
 {
