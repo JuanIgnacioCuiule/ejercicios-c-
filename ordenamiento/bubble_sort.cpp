@@ -41,11 +41,17 @@ int main(){
 		}
 	}
 
+	for (int i = 0; i < calcular_largo(numeros); ++i)
+	{
+		cout << numeros[i];
+	}
+
 	cout << "Fueron necesarios: " << cont << " pasos." << endl;
 
 	float tiempo_de_ejecucion = (clock()-tStart)/1000.0;
 	cout << "El tiempo de ejecucion fue de: " << tiempo_de_ejecucion << " segundos." << endl;
 	return 0;
+
 }
 
 

@@ -46,6 +46,7 @@ int main()
 	{
 		cout << mensaje_encriptado[i];
 	}
+	
 	cout << endl;
 
 	/*char salida[100];
@@ -58,7 +59,7 @@ int main()
 	}
 	cout << endl;
 	*/
-	cout << endl;
+
 	return 0;
 
 }
@@ -92,7 +93,7 @@ void encriptar(char mensaje[], char salida[], long e, long n) {
 		long potencia = pow(letra, e);
 		long resto = fmod(potencia, n);
 		salida[i] = (char) resto;
-		cout << "potencia: " << (pow(97,e)) << " resto: " << (char) resto << endl;
+		cout << "potencia: " << potencia << " resto: " << (int) resto << endl;
 	}
 }
 
