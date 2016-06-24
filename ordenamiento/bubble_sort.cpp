@@ -26,7 +26,7 @@ int main(){
 	
 	for (int i = 0; i < calcular_largo(numeros); ++i)
 	{	
-		for (int a = i+1; a < (calcular_largo(numeros)-1); ++a)
+		for (int a = 0; a < (calcular_largo(numeros)-1); ++a)
 		{
 			if (numeros[i] < numeros[a]){
 
