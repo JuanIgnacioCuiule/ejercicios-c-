@@ -4,13 +4,13 @@
 #include <time.h>
 #include <string.h>
 
-long long int Mcd(long long int a, long long int b);
-long long int modInverse(long long int a, long long int m);
-long long int modular_pow(int base, long long int exponent, long long int modulus);
-void encriptar(char mensajePlano[], long long int mensajeEncriptado[], long long int e, long long int n);
-void desencriptar(long long int mensajeEncriptado[], char salida[], long long int e, long long int n);
+long int Mcd(long int a, long int b);
+long int modInverse(long int a, long int m);
+long int modular_pow(int base, long int exponent, long int modulus);
+void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, long int n);
+void desencriptar(long int mensajeEncriptado[], char salida[], long int e, long int n);
 
-int calcular_largo(long long int mensaje[]) {
+int calcular_largo(long int mensaje[]) {
 	int i = 0;
 
 	while(mensaje[i] != 0) {
@@ -43,11 +43,11 @@ int main()
 	int q = primos[rand()%168];
 
 	// n y euler(n)...
-	long long int n = p*q;
-	long long int phi_n = (p-1)*(q-1);
+	long int n = p*q;
+	long int phi_n = (p-1)*(q-1);
 	
 	// e tal que 1 < e < euler(n) y e coprimo con n y euler(n)
-	long long int e = rand()%phi_n;
+	long int e = rand()%phi_n;
 	while(Mcd(e, n) != 1 || Mcd(e, phi_n) != 1)
 	{
 		e = rand()%phi_n;
@@ -55,7 +55,7 @@ int main()
 
 	// d tal que (d*e)%phi_n = 1
 	// Usamos la funcion modIverse para generar la d...
-	long long int d = modInverse(e, phi_n) + phi_n * (rand()%5 + 1);
+	long int d = modInverse(e, phi_n) + phi_n * (rand()%5 + 1);
 
 	printf("el num p     es: %li\n", p);
 	printf("el num q     es: %li\n", q);
@@ -66,7 +66,7 @@ int main()
 
 	char mensajePlano[300]; //mensaje que entra el usuario
 	char salida[300]; //mensaje que sale despues de desencriptar
-	long long int mensajeEncriptado[300]; //vector que contiene el mensaje encriptado
+	long int mensajeEncriptado[300]; //vector que contiene el mensaje encriptado
 	//Limpiamos los 300 elementos que tiene el mensaje encriptado
 	for (int i = 0; i < 301; ++i)
 	{
@@ -78,24 +78,12 @@ int main()
 	
 	encriptar(mensajePlano, mensajeEncriptado, e, n);
 
-	for (int i = 0; i < calcular_largo(mensajeEncriptado); ++i)
-	{
-		printf("%li\t", mensajeEncriptado[i]);
-	}
-	printf("\n");
-
 	desencriptar(mensajeEncriptado, salida, d, n);
-
-	for (int i = 0; i < strlen(salida); ++i)
-	{
-		printf("%c", salida[i]);
-	}
-	printf("\n");
 
 	return 0;
 }	
 
-long long int Mcd(long long int a, long long int b) {
+long int Mcd(long int a, long int b) {
 	while(a!=b){
 		while (a > b)
 		{
@@ -109,7 +97,7 @@ long long int Mcd(long long int a, long long int b) {
 	return a;
 }
 
-long long int modInverse(long long int a,long long int m) {
+long int modInverse(long int a,long int m) {
     a = a%m;
     for (int x=1; x<m; x++){
        if ((a*x) % m == 1) {
@@ -118,18 +106,31 @@ long long int modInverse(long long int a,long long int m) {
     }
 }
 
-void encriptar(char mensajePlano[], long long int mensajeEncriptado[], long long int e, long long int n) {
-	int largo = strlen(mensajePlano) - 1;
-	for (int i = 0; i < largo; ++i)
+void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, long int n) {
+	FILE * cryptofile;
+	cryptofile = fopen("cryptofile.txt", "w");
+
+	for (int i = 0; i < strlen(mensajePlano) - 1; ++i)
 	{
 		int asciiCode = mensajePlano[i];
 
 		mensajeEncriptado[i] = modular_pow(asciiCode, e, n);
+		
+		fprintf(cryptofile, "%05X ", mensajeEncriptado[i]);
+		// FORMATEO DEL ARCHIVO DE salida
+		if (i > 0 && i <= 7 && i%7 == 0)
+		{
+			fprintf(cryptofile, "\n", "");
+		} else if (i > 8 && i%8 == 7)  {
+			fprintf(cryptofile, "\n", "");
+		}
+
 	}
+
+	fclose(cryptofile);
 }
 
-void desencriptar(long long int mensajeEncriptado[], char salida[], long long int d, long long int n) {
-	
+void desencriptar(long int mensajeEncriptado[], char salida[], long int d, long int n) {
 	for (int i = 0; i <= calcular_largo(mensajeEncriptado); ++i)
 	{
 		char caracter = modular_pow(mensajeEncriptado[i], d, n);
@@ -137,8 +138,8 @@ void desencriptar(long long int mensajeEncriptado[], char salida[], long long in
 	}
 }
 
-long long int modular_pow(int base, long long int exponent, long long int modulus) {
-    long long int c = 1;
+long int modular_pow(int base, long int exponent, long int modulus) {
+    long int c = 1;
     for (int i = 1; i <= exponent; i++) {
         c = (c * base)%modulus;
     }
