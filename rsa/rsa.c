@@ -57,12 +57,9 @@ int main()
 	// Usamos la funcion modIverse para generar la d...
 	long int d = modInverse(e, phi_n) + phi_n * (rand()%5 + 1);
 
-	printf("el num p     es: %li\n", p);
-	printf("el num q     es: %li\n", q);
-	printf("el num n     es: %li\n", n);
-	printf("el num phi_n es: %li\n", phi_n);
-	printf("el num e     es: %li\n", e);
-	printf("el num d     es: %li\n", d);
+	printf("--- Las claves son ---\n");
+	printf("--- publica (%li,%li) ---\n", e, n);
+	printf("--- privada (%li,%li) ---\n", d, n);
 
 	char mensajePlano[300]; //mensaje que entra el usuario
 	char salida[300]; //mensaje que sale despues de desencriptar
@@ -73,12 +70,16 @@ int main()
 		mensajeEncriptado[i] = 0;
 	}
 
-	printf("Ingrese el mensaje a encriptar (Max 100 caracteres): ");
+	printf("Ingrese el mensaje a encriptar (Max 300 caracteres): ");
 	fgets(mensajePlano, 300, stdin);
 	
 	encriptar(mensajePlano, mensajeEncriptado, e, n);
-
 	desencriptar(mensajeEncriptado, salida, d, n);
+
+	for (int i = 0; i < strlen(salida); ++i)
+	{
+		printf("%c", salida[i]);
+	}
 
 	return 0;
 }	
@@ -133,7 +134,8 @@ void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, lo
 void desencriptar(long int mensajeEncriptado[], char salida[], long int d, long int n) {
 	for (int i = 0; i <= calcular_largo(mensajeEncriptado); ++i)
 	{
-		char caracter = modular_pow(mensajeEncriptado[i], d, n);
+		long int numero = mensajeEncriptado[i];
+		char caracter = modular_pow(numero, d, n);
 		salida[i] = caracter;
 	}
 }
