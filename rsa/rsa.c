@@ -4,87 +4,153 @@
 #include <time.h>
 #include <string.h>
 
-long int Mcd(long int a, long int b);
-long int modInverse(long int a, long int m);
-long int modular_pow(int base, long int exponent, long int modulus);
+long int maximo_comun_divisor(long int a, long int b);
+long int modInverso(long int a, long int m);
+long int potencia_modular(int base, long int exponent, long int modulus);
 void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, long int n);
 void desencriptar(long int mensajeEncriptado[], char salida[], long int e, long int n);
+int calcular_largo(long int mensaje[]);
 
-int calcular_largo(long int mensaje[]) {
-	int i = 0;
-
-	while(mensaje[i] != 0) {
-		i++;
-	}
-
-	return i;
-}
 
 int main()
 {
 
 	srand(time(NULL));
 	
-	int primos[168] = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-	43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109,
-	113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191,
-	193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269,
-	271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353,
-	359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439,
-	443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523,
-	541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617,
-	619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709,
-	719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811,
-	821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 
-	911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997};
+	int eleccion_menu;
 
-	// p y q dos numeros primos...
-	int p = primos[rand()%168];
-	int q = primos[rand()%168];
+	printf("Ingresa el numero correspondiente a la funcion que quieras usar\n");
+	printf("1. Generar claves publica y privada\n");
+	printf("2. Encriptar desde archivo\n");
+	printf("3. Desencriptar desde archivo\n");
+	printf("4. Manual\n");
 
-	// n y euler(n)...
-	long int n = p*q;
-	long int phi_n = (p-1)*(q-1);
-	
-	// e tal que 1 < e < euler(n) y e coprimo con n y euler(n)
-	long int e = rand()%phi_n;
-	while(Mcd(e, n) != 1 || Mcd(e, phi_n) != 1)
-	{
-		e = rand()%phi_n;
+	scanf("%d", &eleccion_menu);
+
+	if (eleccion_menu == 1)
+	{	// GENERAR CLAVES PUBLICA Y PRIVADA
+		int primos[10] = {17, 19, 23, 29, 31, 37, 41, 43, 47, 53};
+
+		// p y q dos numeros primos...
+		int p = primos[rand()%10];
+		int q = primos[rand()%10];
+
+		// n y euler(n)...
+		long int n = p*q;
+		long int phi_n = (p-1)*(q-1);
+		
+		// e tal que 1 < e < euler(n) y e coprimo con n y euler(n)
+		long int e = rand()%phi_n;
+		while(maximo_comun_divisor(e, n) != 1 || maximo_comun_divisor(e, phi_n) != 1)
+		{
+			e = rand()%phi_n;
+		}
+
+		// d tal que (d*e)%phi_n = 1
+		// Usamos la funcion modIverse para generar la d...
+		long int d = modInverso(e, phi_n) + phi_n * (rand()%5 + 1);
+
+		printf("--- Las claves son ---\n");
+		printf("--- publica (%li,%li) ---\n", e, n);
+		printf("--- privada (%li,%li) ---\n", d, n);
+
 	}
+	else if (eleccion_menu == 2)
+	{	// ENCRIPTAR DESDE ARCHIVO
+		long int e, n;
 
-	// d tal que (d*e)%phi_n = 1
-	// Usamos la funcion modIverse para generar la d...
-	long int d = modInverse(e, phi_n) + phi_n * (rand()%5 + 1);
+		FILE * archivo_de_texto;
 
-	printf("--- Las claves son ---\n");
-	printf("--- publica (%li,%li) ---\n", e, n);
-	printf("--- privada (%li,%li) ---\n", d, n);
+		archivo_de_texto = fopen("mensaje_entrada.txt", "r");
 
-	char mensajePlano[300]; //mensaje que entra el usuario
-	char salida[300]; //mensaje que sale despues de desencriptar
-	long int mensajeEncriptado[300]; //vector que contiene el mensaje encriptado
-	//Limpiamos los 300 elementos que tiene el mensaje encriptado
-	for (int i = 0; i < 301; ++i)
-	{
-		mensajeEncriptado[i] = 0;
+		char mensaje_entrada[1000]; // Contiene el mensaje del archivo
+		long int mensajeEncriptado[1000]; // Contiene el mensaje encriptado
+
+		//Limpiamos los 1000 elementos que tiene el mensaje 
+		//antes de llenarlo con los caracteres
+		for (int i = 0; i < 1000; ++i)
+		{
+			mensaje_entrada[i] = 0;
+			mensajeEncriptado[i] = 0;
+		}
+
+		for (int i = 0; i < 1000; ++i)
+		{
+			fscanf(archivo_de_texto, "%c", &mensaje_entrada[i]);
+			if (mensaje_entrada[i] == 0)
+			{
+				break;
+			}
+		}
+
+		fclose(archivo_de_texto);
+
+		printf("Ingrese la clave bajo la cual queres encriptar el mensaje\n");
+		printf("Clave e (publica): ");
+		scanf("%li", &e);
+		printf("Clave n: ");
+		scanf("%li", &n);
+
+		encriptar(mensaje_entrada, mensajeEncriptado, e, n); // Salida en hex a cryptofile.txt
+		printf("El mensaje encriptado a quedado en el archivo \"cryptofile.txt\" \n");
 	}
-
-	printf("Ingrese el mensaje a encriptar (Max 300 caracteres): ");
-	fgets(mensajePlano, 300, stdin);
-	
-	encriptar(mensajePlano, mensajeEncriptado, e, n);
-	desencriptar(mensajeEncriptado, salida, d, n);
-
-	for (int i = 0; i < strlen(salida); ++i)
+	else if(eleccion_menu == 3)
 	{
-		printf("%c", salida[i]);
+		long int d, n;
+
+		FILE * archivo_de_encriptado;
+		
+		archivo_de_encriptado = fopen ("cryptofile.txt","r");
+
+		long int crypto_hex[1000]; // Contiene los valores recibidos del archivo cryptofile.txt
+		char mensaje_salida[1000]; // Contiene el mensaje que saldra
+
+		for (int i = 0; i < 1000; ++i)
+		{
+			crypto_hex[i] = 0;
+			mensaje_salida[i] = 0;
+		}		
+		
+		for (int i = 0; i < 1000; ++i)
+		{
+			fscanf (archivo_de_encriptado, "%05X ", &crypto_hex[i]);
+			if (crypto_hex[i] == 0)
+			{
+				break;
+			}
+			printf ("I have read: %li \n",crypto_hex[i]); // SACAR
+		}
+		
+		fclose(archivo_de_encriptado);
+
+		printf("Ingrese su clave privada para desencriptar el mensaje\n");
+		printf("Clave d (privada): ");
+		scanf("%li", &d);
+		printf("Clave n: ");
+		scanf("%li", &n);
+
+		desencriptar(crypto_hex, mensaje_salida, d, n);
+
+		for (int i = 0; i < strlen(mensaje_salida); ++i)
+		{
+			printf("%c", mensaje_salida[i]);
+		}
+
+		FILE * salidarchivo;
+		salidarchivo = fopen("mensaje_salida.txt", "w");
+
+		for (int i = 0; i < strlen(mensaje_salida); ++i)
+		{		
+			fprintf(salidarchivo, "%c", mensaje_salida[i]);
+		}
+
+		fclose(salidarchivo);
 	}
 
 	return 0;
 }	
 
-long int Mcd(long int a, long int b) {
+long int maximo_comun_divisor(long int a, long int b) {
 	while(a!=b){
 		while (a > b)
 		{
@@ -98,7 +164,7 @@ long int Mcd(long int a, long int b) {
 	return a;
 }
 
-long int modInverse(long int a,long int m) {
+long int modInverso(long int a,long int m) {
     a = a%m;
     for (int x=1; x<m; x++){
        if ((a*x) % m == 1) {
@@ -115,7 +181,7 @@ void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, lo
 	{
 		int asciiCode = mensajePlano[i];
 
-		mensajeEncriptado[i] = modular_pow(asciiCode, e, n);
+		mensajeEncriptado[i] = potencia_modular(asciiCode, e, n);
 		
 		fprintf(cryptofile, "%05X ", mensajeEncriptado[i]);
 		// FORMATEO DEL ARCHIVO DE salida
@@ -135,15 +201,25 @@ void desencriptar(long int mensajeEncriptado[], char salida[], long int d, long 
 	for (int i = 0; i <= calcular_largo(mensajeEncriptado); ++i)
 	{
 		long int numero = mensajeEncriptado[i];
-		char caracter = modular_pow(numero, d, n);
+		char caracter = potencia_modular(numero, d, n);
 		salida[i] = caracter;
 	}
 }
 
-long int modular_pow(int base, long int exponent, long int modulus) {
+long int potencia_modular(int base, long int exponent, long int modulus) {
     long int c = 1;
     for (int i = 1; i <= exponent; i++) {
         c = (c * base)%modulus;
     }
     return c;
+}
+
+int calcular_largo(long int mensaje[]) {
+	int i = 0;
+
+	while(mensaje[i] != 0) {
+		i++;
+	}
+
+	return i;
 }
