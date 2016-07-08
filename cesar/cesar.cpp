@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
 void descifrar(char mensaje[], int largo, int corrimiento);
@@ -11,6 +13,10 @@ char alfabeto[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','
 int main()
 {
 	char mensajeIngresado[300];
+	for (int i = 0; i < 300; ++i)
+	{
+		mensajeIngresado[i] = 0;
+	}
 	char mensajeEncriptado[300];
 	char cod;
 	int corrimiento;
@@ -22,8 +28,8 @@ int main()
 
 	if (cod == '1')
 	{
-		cout << "Ingresa en mensaje a cifrar: ";
-		cin >> mensajeIngresado;
+		printf("Ingresa en mensaje a cifrar: ");
+		fgets(mensajeIngresado, 300, stdin);
 		
 		int largo = calcular_largo(mensajeIngresado);
 

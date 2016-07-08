@@ -118,6 +118,7 @@ int main()
 			{
 				break;
 			}
+			printf ("I have read: %li \n",crypto_hex[i]); // SACAR
 		}
 		
 		fclose(archivo_de_encriptado);
@@ -176,7 +177,7 @@ void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, lo
 	FILE * cryptofile;
 	cryptofile = fopen("cryptofile.txt", "w");
 
-	for (int i = 0; i < strlen(mensajePlano); ++i)
+	for (int i = 0; i < strlen(mensajePlano) - 1; ++i)
 	{
 		int asciiCode = mensajePlano[i];
 
