@@ -23,7 +23,6 @@ int main()
 	printf("1. Generar claves publica y privada\n");
 	printf("2. Encriptar desde archivo\n");
 	printf("3. Desencriptar desde archivo\n");
-	printf("4. Manual\n");
 
 	scanf("%d", &eleccion_menu);
 
@@ -130,10 +129,7 @@ int main()
 
 		desencriptar(crypto_hex, mensaje_salida, d, n);
 
-		for (int i = 0; i < strlen(mensaje_salida); ++i)
-		{
-			printf("%c", mensaje_salida[i]);
-		}
+		printf("El mensaje encriptado a quedado en el archivo \"mensaje_salida.txt\" \n");
 
 		FILE * salidarchivo;
 		salidarchivo = fopen("mensaje_salida.txt", "w");

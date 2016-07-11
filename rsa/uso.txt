@@ -1,0 +1,5 @@
+El programa en esta carpeta es un encriptador de metodo RSA
+Este programa es capaz de generar las claves (publica y privada)
+Permite encriptar y desencriptar mensajes que introduzcamos en los correspondientes archivos.
+Para encriptar un mensaje se debe escribir este en el archivo llamado "mensaje_entrada.txt" y correr el programa
+Para desencriptar un mensaje se debe copiar la secuencia de valores hexadecimales en un archivo llamado "cryptofile.txt" y correr el programa
