@@ -1,66 +1,76 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-int calcular_largo(int numeros[]);
+void burbuja( int largo, int vector[]);
+int calcular_largo(int vector[]);
 
-int main(){
+int main()
+{
+  clock_t t;
+  int vector[300], indice = 0;
+  srand(time(NULL));
 
-	int indice_numeros = 0;
-	int numeros[300];
+  printf("Ingrese el %dº numero: ", indice+1 );
+  scanf(" %d", &vector[indice]);
 
-	cout << "Ingrese el primer numero: ";
-	cin >> numeros[0];
+  while(vector[indice] != 0){
+    indice++;
+    printf("Ingrese el %dº numero: ", indice+1 );
+    scanf(" %d", &vector[indice]);
+  }
 
-	while (numeros[indice_numeros] != 0) {
-		indice_numeros++;
-		cout << "Ingrese el numero " << indice_numeros+1 << ": ";
-		cin  >> numeros[indice_numeros];
-	}
+  int largo_vector = calcular_largo(vector);
 
-	int cont = 0;
+  printf("El vector desordenado: \n");
 
-	cout << "Se ingresaron: " << calcular_largo(numeros) << " numeros." << endl;
+  for(int i = 0; i < largo_vector; i++){
+    printf("%d ",vector[i]);
+  }
 
-	clock_t tStart = clock(); 
-	
-	for (int i = 0; i < calcular_largo(numeros); ++i)
-	{	
-		for (int a = 0; a < (calcular_largo(numeros)-1); ++a)
-		{
-			if (numeros[i] < numeros[a]){
+  burbuja(largo_vector, vector);
 
-				cont++;
+  printf("El vector ordenado: \n");
 
-				int num = numeros[i];
-				int num_siguiente = numeros[a];
+  for(int i = 0; i < largo_vector; i++){
+    printf("%d ",vector[i]);
+  }
 
-				numeros[i] = num_siguiente;
-				numeros[a] = num;
-			}
-		}
-	}
-
-	for (int i = 0; i < calcular_largo(numeros); ++i)
-	{
-		cout << numeros[i];
-	}
-
-	cout << "Fueron necesarios: " << cont << " pasos." << endl;
-
-	float tiempo_de_ejecucion = (clock()-tStart)/1000.0;
-	cout << "El tiempo de ejecucion fue de: " << tiempo_de_ejecucion << " segundos." << endl;
-	return 0;
-
+  return 0;
 }
 
+void burbuja( int largo, int vector[])
+{
+  clock_t ticks;
+  ticks = clock();
+  int cambios = 0, comparaciones = 0;
+  int i, j;
+  int aux;
+  int ordenado = 0;
+  for( i = 0; i < largo - 1 && ordenado == 0; i++){
+    comparaciones++;
+    ordenado = 1;
+      for( j = 0; j < largo - 1 - i; j++){
+        comparaciones++;
+        if( vector[j] > vector[j+1]){
+          ordenado = 0;
+          aux = vector[j];
+          vector[j] = vector[j+1];
+          vector[j+1] = aux;
+          cambios++;
+        }
+    }
+  }
+  ticks = clock() - ticks;
+  printf("Se realizaron: %d cambios.\n", cambios);
+  printf("Se realizaron: %d comparaciones.\n", comparaciones);
+  printf("El proceso tomo: %f segundos.\n", ((float)ticks)/CLOCKS_PER_SEC);
+}
 
-int calcular_largo(int numeros[]) {
+int calcular_largo(int vector[]) {
 	int b = 0;
-
-	while(numeros[b] != 0) {
+	while(vector[b] != 0) {
 		b++;
 	}
-
 	return b;
 }
