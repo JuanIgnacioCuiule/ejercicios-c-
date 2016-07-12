@@ -1,0 +1,3 @@
+El programa que se encuentra en esta carpeta clasifica archivos por su extensión
+Permite clasificar archivos ".txt", ".pdf", ".mp3", "jpg".
+Los nombres de los archivos no pueden superar los 30 caracteres.
