@@ -42,12 +42,10 @@ int main()
 			int cantProd = 0;
 			double montoProd = 0;
 			cout << "Producto: " << prodAnt << " ---" << endl;
-			while (!feof(f) && strcmp(paisAnt, reg.pais) == 0
-					&& strcmp(prodAnt, reg.prod) == 0) {
+			while (!feof(f) && strcmp(paisAnt, reg.pais) == 0 && strcmp(prodAnt, reg.prod) == 0) {
 				cantProd += reg.cant;
 				montoProd += reg.monto;
-				cout << reg.pais << '\t' << reg.prod << '\t'
-				<< reg.cant << '\t' << reg.monto << endl;
+				cout << reg.pais << '\t' << reg.prod << '\t' << reg.cant << '\t' << reg.monto << endl;
 				fread(&reg, sizeof(Registro), 1, f);
 			}
 			cout << "---Totales " << prodAnt << ":\t\t" << cantProd

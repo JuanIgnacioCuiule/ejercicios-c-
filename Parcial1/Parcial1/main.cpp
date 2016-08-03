@@ -12,7 +12,7 @@ int main()
 		char cadena[20];
 		double ingresos;
 	};
-	Registro reg;
+	Registro regA, regB;
 	FILE *file1;
 	FILE *file2;
 	FILE *salida;
@@ -26,18 +26,37 @@ int main()
 	}
 
 	char cadenaAnt[20];
-	int cantTotal = 0;
 	double montoTotal = 0;
 	//feof no es la mejor idea!!! (pero con binarios anda razonablemente)
-	fread(&reg, sizeof(Registro), 1, file1);
-	while (!feof(file1)) { // Equivale a fread() == 1
-		strcpy(cadenaAnt, reg.cadena);
-		int cantCadena = 0;
-		cout << "===== Listado para: " << cadenaAnt << " =====" << endl << endl ;
-		cout << "TOTALES " << cadenaAnt << ":\t" << cantCadena << '\t' << endl;
-		cantTotal += cantCadena;
+	fread(&regA, sizeof(Registro), 1, file1);
+	fread(&regB, sizeof(Registro), 1, file2);
+	strcpy(cadenaAnt, regA.cadena);
+    while (!feof(file1) && !feof(file2)) {
+        if (strcmp(regA.cadena, regB.cadena) < 0) {
+            fwrite(&regA, sizeof(Registro), 1, salida);
+            cantCadena++;
+            cout << regA.cadena << "\t" << regA.ingresos <<  endl;
+            fread(&regA, sizeof(Registro), 1, file1);
+            strcpy(cadenaAnt, regA.cadena);
+        } else {
+            fwrite(&regB, sizeof(Registro), 1, salida);
+            cantCadena++;
+            cout << regB.cadena << "\t" << regB.ingresos << endl;
+            fread(&regB, sizeof(Registro), 1, file2);
+            strcpy(cadenaAnt, regB.cadena);
+        }
+    }
+	while (!feof(file1)) {
+        fread(&regA, sizeof(Registro), 1, file1);
+        fwrite(&regA, sizeof(Registro), 1, salida);
+        cantCadena++;
 	}
-	cout << "\tGRAN TOTAL:\t" << cantTotal << '\t' << montoTotal << endl;
+	while (!feof(file2)) {
+        fread(&regB, sizeof(Registro), 1, file2);
+        fwrite(&regB, sizeof(Registro), 1, salida);
+        cantCadena++;
+	}
+    cout << "cantidad cadena: " << cantCadena << endl;
 	fclose(file1);
 	fclose(file2);
 	fclose(salida);

@@ -1,9 +1,3 @@
-Wallmart	34
-Wallmart	31
-Wallmart	26
-Wallmart	28
-Wallmart	41
-Wallmart	21
 Carrefour	23
 Carrefour	73
 Jumbo	34
@@ -13,3 +7,9 @@ Jumbo	21
 Jumbo	35
 Jumbo	40
 Jumbo	18
+Wallmart	34
+Wallmart	31
+Wallmart	26
+Wallmart	28
+Wallmart	41
+Wallmart	21
