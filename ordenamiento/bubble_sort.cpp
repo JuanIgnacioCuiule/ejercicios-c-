@@ -1,6 +1,8 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
+
+using namespace std;
 
 void burbuja( int largo, int vector[]);
 int calcular_largo(int vector[]);
@@ -11,29 +13,29 @@ int main()
   int vector[300], indice = 0;
   srand(time(NULL));
 
-  printf("Ingrese el %dº numero: ", indice+1 );
-  scanf(" %d", &vector[indice]);
+  cout << "Ingrese el "<< indice+1 <<" numero: ";
+  cin >> vector[indice];
 
   while(vector[indice] != 0){
     indice++;
-    printf("Ingrese el %dº numero: ", indice+1 );
-    scanf(" %d", &vector[indice]);
+    cout << "Ingrese el " << indice+1 << "º numero: ";
+    cin >> vector[indice];
   }
 
   int largo_vector = calcular_largo(vector);
 
-  printf("El vector desordenado: \n");
+  cout << "El vector desordenado: " << endl;
 
   for(int i = 0; i < largo_vector; i++){
-    printf("%d ",vector[i]);
+    cout << vector[i];
   }
 
   burbuja(largo_vector, vector);
 
-  printf("El vector ordenado: \n");
+  cout << "El vector ordenado: " << endl;
 
   for(int i = 0; i < largo_vector; i++){
-    printf("%d ",vector[i]);
+    cout << vector[i] << " ";
   }
 
   return 0;
@@ -62,9 +64,9 @@ void burbuja( int largo, int vector[])
     }
   }
   ticks = clock() - ticks;
-  printf("Se realizaron: %d cambios.\n", cambios);
-  printf("Se realizaron: %d comparaciones.\n", comparaciones);
-  printf("El proceso tomo: %f segundos.\n", ((float)ticks)/CLOCKS_PER_SEC);
+  cout << "Se realizaron: "<< cambios <<" cambios." << endl;
+  cout << "Se realizaron: "<< comparaciones <<" comparaciones." << endl;
+  cout << "El proceso tomo: "<< ((float)ticks)/CLOCKS_PER_SEC <<" segundos." << endl;
 }
 
 int calcular_largo(int vector[]) {

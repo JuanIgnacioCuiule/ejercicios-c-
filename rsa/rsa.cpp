@@ -16,7 +16,7 @@ int main()
 {
 
 	srand(time(NULL));
-	
+
 	int eleccion_menu;
 
 	printf("Ingresa el numero correspondiente a la funcion que quieras usar\n");
@@ -37,7 +37,7 @@ int main()
 		// n y euler(n)...
 		long int n = p*q;
 		long int phi_n = (p-1)*(q-1);
-		
+
 		// e tal que 1 < e < euler(n) y e coprimo con n y euler(n)
 		long int e = rand()%phi_n;
 		while(maximo_comun_divisor(e, n) != 1 || maximo_comun_divisor(e, phi_n) != 1)
@@ -65,7 +65,7 @@ int main()
 		char mensaje_entrada[1000]; // Contiene el mensaje del archivo
 		long int mensajeEncriptado[1000]; // Contiene el mensaje encriptado
 
-		//Limpiamos los 1000 elementos que tiene el mensaje 
+		//Limpiamos los 1000 elementos que tiene el mensaje
 		//antes de llenarlo con los caracteres
 		for (int i = 0; i < 1000; ++i)
 		{
@@ -98,7 +98,7 @@ int main()
 		long int d, n;
 
 		FILE * archivo_de_encriptado;
-		
+
 		archivo_de_encriptado = fopen ("cryptofile.txt","r");
 
 		long int crypto_hex[1000]; // Contiene los valores recibidos del archivo cryptofile.txt
@@ -108,8 +108,8 @@ int main()
 		{
 			crypto_hex[i] = 0;
 			mensaje_salida[i] = 0;
-		}		
-		
+		}
+
 		for (int i = 0; i < 1000; ++i)
 		{
 			fscanf (archivo_de_encriptado, "%05X ", &crypto_hex[i]);
@@ -118,7 +118,7 @@ int main()
 				break;
 			}
 		}
-		
+
 		fclose(archivo_de_encriptado);
 
 		printf("Ingrese su clave privada para desencriptar el mensaje\n");
@@ -135,7 +135,7 @@ int main()
 		salidarchivo = fopen("mensaje_salida.txt", "w");
 
 		for (int i = 0; i < strlen(mensaje_salida); ++i)
-		{		
+		{
 			fprintf(salidarchivo, "%c", mensaje_salida[i]);
 		}
 
@@ -143,7 +143,7 @@ int main()
 	}
 
 	return 0;
-}	
+}
 
 long int maximo_comun_divisor(long int a, long int b) {
 	while(a!=b){
@@ -177,7 +177,7 @@ void encriptar(char mensajePlano[], long int mensajeEncriptado[], long int e, lo
 		int asciiCode = mensajePlano[i];
 
 		mensajeEncriptado[i] = potencia_modular(asciiCode, e, n);
-		
+
 		fprintf(cryptofile, "%05X ", mensajeEncriptado[i]);
 		// FORMATEO DEL ARCHIVO DE salida
 		if (i > 0 && i <= 7 && i%7 == 0)

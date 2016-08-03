@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1470230936 source:/home/juancuiule/Documents/Parcial1/txtAbin/main.cpp
+	<iostream>
+	<cstdlib>
+	<stdio.h>
+

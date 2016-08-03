@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1468509098 source:/home/juancuiule/Documents/Parcial1/EjemploTexto/main.cpp
+	<iostream>
+	<cstdlib>
+	<stdio.h>
+

@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1467229019 source:/home/euzkoarima/Documentos/UTN/Algoritmos/Ejemplos/CorteCC/main.cpp
+	<iostream>
+	<cstdlib>
+	<stdio.h>
+	<string.h>
+

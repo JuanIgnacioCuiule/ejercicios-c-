@@ -1,0 +1,16 @@
+Wallmart	12
+Wallmart	32
+Wallmart	12
+Wallmart	4
+Wallmart	23
+Carrefour	5
+Carrefour	16
+Carrefour	23
+Carrefour	6
+Carrefour	15
+Carrefour	23
+Carrefour	5
+Jumbo	12
+Jumbo	21
+Jumbo	5
+

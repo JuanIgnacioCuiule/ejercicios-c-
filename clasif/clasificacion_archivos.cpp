@@ -1,4 +1,4 @@
-#include <stdio.h>
+//#include <stdio.h>
 #include <string.h>
 #include <vector>
 #include <iostream>
@@ -6,18 +6,18 @@ using namespace std;
 
 int main()
 {
-	vector <string> archivos;
+	vector<string> archivos;
 	int indice_archivos = 0;
 	char aux[30];
-	printf("max_size %i\n", archivos.max_size());
-	printf("Ingrese el nombre del primer archivo: ");
-	scanf("%s", &aux);
+	cout << "max_size " <<  archivos.max_size() << endl;
+	cout << "Ingrese el nombre del primer archivo: " << endl;
+	cin >> aux;
 	archivos.push_back(aux);
 
 	while (archivos[indice_archivos] != "0") {
 		indice_archivos++;
-		printf("Ingrese el nombre del %d º archivo: ", indice_archivos+1);
-		scanf("%s", &aux);
+		cout << "Ingrese el nombre del" << indice_archivos+1 << " º archivo: ";
+		cin >> aux;
 		archivos.push_back(aux);
 	}
 
@@ -45,9 +45,9 @@ int main()
 		extension[3] = archivo[largo_nombre-1];
 
 		if (strcmp(extension, ".pdf") == 0)
-		{	
+		{
 			pdf.push_back(archivo);
-		} 
+		}
 		else if (strcmp(extension, ".txt") == 0)
 		{
 			txt.push_back(archivo);
@@ -56,56 +56,55 @@ int main()
 		{
 			mp3.push_back(archivo);
 		}
-		else if (strcmp(extension, ".jpg") == 0) 
+		else if (strcmp(extension, ".jpg") == 0)
 		{
 			jpg.push_back(archivo);
 		}
 	}
 
-	printf("%s\n", "--- PDF ---");
+	cout << "--- PDF ---" << endl;
 	for (int i = 0; i < pdf.size(); ++i)
 	{
 		for (int a = 0; a < pdf[i].size(); ++a)
 		{
-			printf("%c", pdf[i][a]);
+			cout << pdf[i][a];
 		}
-		printf("\n");
+		cout << endl;
 	}
-	printf("\n");
+	cout << endl;
 
-	printf("%s\n", "--- TXT ---");
+	cout << "--- TXT ---" << endl;
 	for (int i = 0; i < txt.size(); ++i)
 	{
 		for (int a = 0; a < txt[i].size(); ++a)
 		{
-			printf("%c", txt[i][a]);
+			cout << txt[i][a];
 		}
-		printf("\n");
+		cout << endl;
 	}
-	printf("\n");
+	cout << endl;
 
-	printf("%s\n", "--- MP3 ---");
+	cout << "--- MP3 ---" << endl;
 	for (int i = 0; i < mp3.size(); ++i)
 	{
 		for (int a = 0; a < mp3[i].size(); ++a)
 		{
-			printf("%c", mp3[i][a]);
+			cout << mp3[i][a];
 		}
-		printf("\n");
+		cout << endl;
 	}
-	printf("\n");
+	cout << endl;
 
-	printf("%s\n", "--- JPG ---");
+	cout << "--- JPG ---" << endl;
 	for (int i = 0; i < jpg.size(); ++i)
 	{
 		for (int a = 0; a < jpg[i].size(); ++a)
 		{
-			printf("%c", jpg[i][a]);
+			cout << jpg[i][a];
 		}
-		printf("\n");
+		cout << endl;
 	}
-	printf("\n");
+	cout << endl;
 
 	return 0;
 }
-
