@@ -25,27 +25,33 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	char cadenaAnt[20];
+	char cadenaAntA[20];
+	char cadenaAntB[20];
 	double montoTotal = 0;
 	//feof no es la mejor idea!!! (pero con binarios anda razonablemente)
 	fread(&regA, sizeof(Registro), 1, file1);
 	fread(&regB, sizeof(Registro), 1, file2);
-	strcpy(cadenaAnt, regA.cadena);
-    while (!feof(file1) && !feof(file2)) {
-        if (strcmp(regA.cadena, regB.cadena) < 0) {
-            fwrite(&regA, sizeof(Registro), 1, salida);
-            cantCadena++;
-            cout << regA.cadena << "\t" << regA.ingresos <<  endl;
-            fread(&regA, sizeof(Registro), 1, file1);
-            strcpy(cadenaAnt, regA.cadena);
-        } else {
-            fwrite(&regB, sizeof(Registro), 1, salida);
-            cantCadena++;
-            cout << regB.cadena << "\t" << regB.ingresos << endl;
-            fread(&regB, sizeof(Registro), 1, file2);
-            strcpy(cadenaAnt, regB.cadena);
+	strcpy(cadenaAntA, regA.cadena);
+	strcpy(cadenaAntB, regB.cadena);
+	int cantCadena = 0;
+	while(!feof(file1) && !feof(file2)) {
+        cantCadena = 0;
+        while (!feof(file1) && !feof(file2) && (strcmp(cadenaAntA, regA.cadena) == 0 || strcmp(cadenaAntB, regB.cadena) == 0)) {
+            if (strcmp(regA.cadena, regB.cadena) < 0) {
+                fwrite(&regA, sizeof(Registro), 1, salida);
+                cantCadena++;
+                cout << regA.cadena << "\t" << regA.ingresos <<  endl;
+                fread(&regA, sizeof(Registro), 1, file1);
+                strcpy(cadenaAntA, regA.cadena);
+            } else {
+                fwrite(&regB, sizeof(Registro), 1, salida);
+                cantCadena++;
+                cout << regB.cadena << "\t" << regB.ingresos << endl;
+                fread(&regB, sizeof(Registro), 1, file2);
+                strcpy(cadenaAntB, regB.cadena);
+            }
         }
-    }
+	}
 	while (!feof(file1)) {
         fread(&regA, sizeof(Registro), 1, file1);
         fwrite(&regA, sizeof(Registro), 1, salida);
