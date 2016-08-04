@@ -34,23 +34,35 @@ int main()
 	strcpy(cadenaAntA, regA.cadena);
 	strcpy(cadenaAntB, regB.cadena);
 	int cantCadena = 0;
+	double ingresosCadena = 0;
 	while(!feof(file1) && !feof(file2)) {
         cantCadena = 0;
+        ingresosCadena = 0;
+        if (strcmp(regA.cadena, regB.cadena) == 0) {
+            cout << "=== Lista para : " << regA.cadena << " ===" << endl;
+        } else if (strcmp(regB.cadena, regA.cadena) < 0) {
+            cout << "=== Lista para : " << regB.cadena << " ==="  << endl;
+        }
         while (!feof(file1) && !feof(file2) && (strcmp(cadenaAntA, regA.cadena) == 0 || strcmp(cadenaAntB, regB.cadena) == 0)) {
             if (strcmp(regA.cadena, regB.cadena) < 0) {
                 fwrite(&regA, sizeof(Registro), 1, salida);
+                strcpy(cadenaAntA, regA.cadena);
                 cantCadena++;
+                ingresosCadena += regA.ingresos;
                 cout << regA.cadena << "\t" << regA.ingresos <<  endl;
                 fread(&regA, sizeof(Registro), 1, file1);
-                strcpy(cadenaAntA, regA.cadena);
             } else {
                 fwrite(&regB, sizeof(Registro), 1, salida);
+                strcpy(cadenaAntB, regB.cadena);
                 cantCadena++;
+                ingresosCadena += regB.ingresos;
                 cout << regB.cadena << "\t" << regB.ingresos << endl;
                 fread(&regB, sizeof(Registro), 1, file2);
-                strcpy(cadenaAntB, regB.cadena);
             }
         }
+        cout << "=== Total ingresos: " << ingresosCadena << endl << endl;
+        strcpy(cadenaAntB, regB.cadena);
+        strcpy(cadenaAntA, regA.cadena);
 	}
 	while (!feof(file1)) {
         fread(&regA, sizeof(Registro), 1, file1);
@@ -62,7 +74,6 @@ int main()
         fwrite(&regB, sizeof(Registro), 1, salida);
         cantCadena++;
 	}
-    cout << "cantidad cadena: " << cantCadena << endl;
 	fclose(file1);
 	fclose(file2);
 	fclose(salida);
