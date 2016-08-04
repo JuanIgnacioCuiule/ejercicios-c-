@@ -1,0 +1,18 @@
+gana(equipo1) :- \+gana(equipo2). /*Equipo1 gana si no gana Equipo2*/
+clasifica(X) :-
+    gana(X).
+gana(equipo2). /*Gana Equipo2*/
+
+?- clasifica(equipo1).
+
+cursa(juan, algoritmos).
+cursa(pedro, algoritmos).
+cursa(pablo, fisica).
+cursa(tomas, matematica).
+
+companheros(X, Y) :-
+    cursa(X, Z),
+    cursa(Y, Z).
+
+?- companheros(juan, pedro).
+?- companheros(juan, pablo).
