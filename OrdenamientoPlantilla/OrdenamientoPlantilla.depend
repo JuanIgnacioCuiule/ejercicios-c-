@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1470430064 source:/home/juancuiule/Documents/ejercicios-cpp/OrdenamientoPlantilla/main.cpp
+	<iostream>
+	<string.h>
+	<strings.h>
+
