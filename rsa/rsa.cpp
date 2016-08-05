@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <iostream>
+
+using namespace std;
 
 long int maximo_comun_divisor(long int a, long int b);
 long int modInverso(long int a, long int m);
@@ -19,12 +22,12 @@ int main()
 
 	int eleccion_menu;
 
-	printf("Ingresa el numero correspondiente a la funcion que quieras usar\n");
-	printf("1. Generar claves publica y privada\n");
-	printf("2. Encriptar desde archivo\n");
-	printf("3. Desencriptar desde archivo\n");
+	cout << "Ingresa el numero correspondiente a la funcion que quieras usar\n";
+	cout << "1. Generar claves publica y privada\n";
+	cout << "2. Encriptar desde archivo\n";
+	cout << "3. Desencriptar desde archivo\n";
 
-	scanf("%d", &eleccion_menu);
+	cin >> eleccion_menu;
 
 	if (eleccion_menu == 1)
 	{	// GENERAR CLAVES PUBLICA Y PRIVADA
@@ -49,12 +52,11 @@ int main()
 		// Usamos la funcion modIverse para generar la d...
 		long int d = modInverso(e, phi_n) + phi_n * (rand()%5 + 1);
 
-		printf("--- Las claves son ---\n");
-		printf("--- publica (%li,%li) ---\n", e, n);
-		printf("--- privada (%li,%li) ---\n", d, n);
+		cout << "--- Las claves son ---\n";
+		cout << "--- publica (" << e << "," << n << ") ---\n";
+		cout << "--- privada (" << d << "," << n << ") ---\n";
 
-	}
-	else if (eleccion_menu == 2)
+	}	else if (eleccion_menu == 2)
 	{	// ENCRIPTAR DESDE ARCHIVO
 		long int e, n;
 
@@ -84,14 +86,14 @@ int main()
 
 		fclose(archivo_de_texto);
 
-		printf("Ingrese la clave bajo la cual queres encriptar el mensaje\n");
-		printf("Clave e (publica): ");
-		scanf("%li", &e);
-		printf("Clave n: ");
-		scanf("%li", &n);
+		cout << "Ingrese la clave bajo la cual queres encriptar el mensaje\n";
+		cout << "Clave e (publica): ";
+		cin >> e;
+		cout << "Clave n: ";
+		cin >> n;
 
 		encriptar(mensaje_entrada, mensajeEncriptado, e, n); // Salida en hex a cryptofile.txt
-		printf("El mensaje encriptado a quedado en el archivo \"cryptofile.txt\" \n");
+		cout << "El mensaje encriptado a quedado en el archivo \"cryptofile.txt\" \n";
 	}
 	else if(eleccion_menu == 3)
 	{
@@ -121,15 +123,15 @@ int main()
 
 		fclose(archivo_de_encriptado);
 
-		printf("Ingrese su clave privada para desencriptar el mensaje\n");
-		printf("Clave d (privada): ");
-		scanf("%li", &d);
-		printf("Clave n: ");
-		scanf("%li", &n);
+		cout << "Ingrese su clave privada para desencriptar el mensaje\n";
+		cout << "Clave d (privada): ";
+		cin >> d;
+		cout << "Clave n: ";
+		cin >> n;
 
 		desencriptar(crypto_hex, mensaje_salida, d, n);
 
-		printf("El mensaje encriptado a quedado en el archivo \"mensaje_salida.txt\" \n");
+		cout << "El mensaje encriptado a quedado en el archivo \"mensaje_salida.txt\" \n";
 
 		FILE * salidarchivo;
 		salidarchivo = fopen("mensaje_salida.txt", "w");
