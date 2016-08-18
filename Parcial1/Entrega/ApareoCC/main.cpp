@@ -74,6 +74,7 @@ int main()
         fwrite(&regB, sizeof(Registro), 1, salida);
         cantCadena++;
 	}
+
 	fclose(file1);
 	fclose(file2);
 	fclose(salida);

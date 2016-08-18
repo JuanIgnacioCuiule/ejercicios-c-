@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1471012239 source:/home/euzkoarima/Documentos/UTN/Algoritmos/Ejemplos/Busquedas/main.cpp
+	<iostream>
+	<cstdlib>
+
