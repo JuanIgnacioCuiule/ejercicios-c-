@@ -1,0 +1,7 @@
+====== Listas Encadenadas =====
+Manera de manejar memoria de manera dinamica
+Lista simplemente encadenada
+PunteroA ------> [REGITRO a, puntero b]
+				     |
+				     |
+				     ---->[REGISTRO b, puntero c]...... 
