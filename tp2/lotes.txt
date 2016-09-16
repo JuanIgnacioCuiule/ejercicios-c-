@@ -1,0 +1,8 @@
+Tornillos	1000	100000
+Bulones	200	1000
+Tuercas	30	300
+Tuercas	10	100
+Tornillos	20	2000
+Tornillos	40	4000
+Clavo	300	30000
+

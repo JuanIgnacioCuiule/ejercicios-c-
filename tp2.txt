@@ -1,0 +1,7 @@
+char prod[20]
+double kg
+int unid
+
+1. Leer archivo y cargar la lista
+2. El lote con mayor unidades
+3. Promedio kg/lote
