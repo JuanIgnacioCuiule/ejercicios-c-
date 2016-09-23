@@ -55,24 +55,32 @@ void mostrar(Nodo* lista)
 	}
 }
 
-void dup(Nodo* &lista)
+bool dup(Nodo* &lista)
 {
+	if(lista==NULL)
+		return false;
 	Registro regDup = lista->dato;
 	push(lista, regDup);
+	return true;
 }
 
-void swapLista(Nodo* &lista)
+bool swapLista(Nodo* &lista)
 {
+	if(lista==NULL || lista->sig==NULL)
+		return false;
 	Registro regSwap1 = lista->dato;
 	Registro regSwap2 = lista->sig->dato;
 	pop(lista);
 	pop(lista);
 	push(lista, regSwap1);
 	push(lista, regSwap2);
+	return true;
 }
 
-void rot(Nodo* &lista)
+bool rot(Nodo* &lista)
 {
+	if(lista==NULL || lista->sig==NULL || lista->sig->sig==NULL)
+		return false;
 	Registro regSwap1 = lista->dato;
 	Registro regSwap2 = lista->sig->dato;
 	Registro regSwap3 = lista->sig->sig->dato;
@@ -82,6 +90,7 @@ void rot(Nodo* &lista)
 	push(lista, regSwap1);
 	push(lista, regSwap2);
 	push(lista, regSwap3);
+	return true;
 }
 
 int main()
@@ -120,16 +129,19 @@ int main()
 	cout << mayor_lote.prod << "\t" <<  mayor_lote.kg << "\t" << mayor_lote.unid << endl << endl;
 	cout << "El promedio de kg por lote es de: " << (acum == 0 ? 0 : acum/registros) << endl;
 
-	/*dup(pila);
-	cout << "Duplico primero..." << endl;
-	mostrar(pila);
-	cout << endl << endl;*/
 	swapLista(pila);
+	cout << endl;
 	cout << "Swap primero con segundo..." << endl;
 	mostrar(pila);
 
 	rot(pila);
+	cout << endl;
 	cout << "Rot primero con tercero..." << endl;
+	mostrar(pila);
+
+	dup(pila);
+	cout << endl;
+	cout << "Duplico primero..." << endl;
 	mostrar(pila);
 
 	return 0;
