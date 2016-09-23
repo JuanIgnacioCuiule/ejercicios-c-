@@ -47,7 +47,7 @@ int main()
 	Registro reg;
 	FILE *f;
 
-	f = fopen("lotes.bin", "rb");
+	f = fopen("Datos.dat", "rb");
 	if (!f) {
 		cout << "No se pudo abrir el archivo de lectura" << endl;
 		return EXIT_FAILURE;
@@ -65,7 +65,8 @@ int main()
 		push(pila, reg);
 		registros++;
 		acum += reg.kg;
-		if (reg.unid > mayor_lote.unid) {			mayor_lote.kg = reg.kg;
+		if (reg.unid > mayor_lote.unid) {
+			mayor_lote.kg = reg.kg;
 			mayor_lote.unid = reg.unid;
 			strcpy(mayor_lote.prod, reg.prod);
 		}
