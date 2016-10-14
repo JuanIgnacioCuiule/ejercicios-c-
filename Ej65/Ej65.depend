@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1474664650 source:/home/juancuiule/Documents/ejercicios-cpp/Ej65/main.cpp
+	<iostream>
+	<iostream>
+	<cstdlib>
+	<stdio.h>
+	<string.h>
+

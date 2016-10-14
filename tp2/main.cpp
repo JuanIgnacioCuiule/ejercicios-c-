@@ -19,11 +19,7 @@ struct Nodo
 };
 
 void push(Nodo* &pila, Registro valor)
-{ 	/*
-	Me dan un valor de tipo T y la pila donde lo quiero guardar.
-	Node<T>* &pila = pila es una ref a un puntero de nodo para poder
-	odificar el orignial.
-	*/
+{
 	Nodo* nuevo = new Nodo;	// Creo un nuevo nodo
 	nuevo->dato = valor;	// Guardo el valor como dato
 	nuevo->sig = pila;	// Guardo el puntero al sig
@@ -31,10 +27,7 @@ void push(Nodo* &pila, Registro valor)
 }
 
 void mostrar(Nodo* lista)
-{	/*
-	Nodo<T>* lista = Pedir un "clon" del original para poder mostrarlo
-	como quiera.
-	*/
+{
 	while (lista!= NULL){
 		cout << lista->dato.prod << "\t" << lista->dato.kg << "\t" << lista->dato.unid << endl;
 		lista = lista->sig;

@@ -1,8 +1,4 @@
 #include <iostream>
-
-using namespace std;
-
-
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
@@ -117,7 +113,8 @@ int main()
 		push(pila, reg);
 		registros++;
 		acum += reg.kg;
-		if (reg.unid > mayor_lote.unid) {			mayor_lote.kg = reg.kg;
+		if (reg.unid > mayor_lote.unid) {
+			mayor_lote.kg = reg.kg;
 			mayor_lote.unid = reg.unid;
 			strcpy(mayor_lote.prod, reg.prod);
 		}
