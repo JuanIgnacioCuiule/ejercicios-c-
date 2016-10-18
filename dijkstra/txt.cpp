@@ -9,9 +9,11 @@ int main(int argc, char* argv[])
 	FILE *archivoTexto;
 	FILE *archivoBinario;
 	struct Registro {
-		char cadena[20];
-		double ingresos;
+		int origen;
+		int destino;
+		int peso;
 	};
+	
 	Registro reg;
 
 	archivoTexto = fopen(argv[1], "r");
@@ -23,9 +25,9 @@ int main(int argc, char* argv[])
 	}
 
 	int registros = 0;
-	while(fscanf(archivoTexto, "%s\t%lf\n", reg.cadena, &reg.ingresos) != EOF) {
-		cout << "Registro " << ++registros << ": " << reg.cadena << "\t" << reg.ingresos << endl;
+	while(fscanf(archivoTexto, "%d\t%d\t%d\n", &reg.origen, &reg.destino, &reg.peso) != EOF) {
 		fwrite(&reg, sizeof(struct Registro), 1, archivoBinario);
+		registros++;
 	}
 	fclose(archivoTexto);
 	fclose(archivoBinario);

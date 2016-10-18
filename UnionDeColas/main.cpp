@@ -54,16 +54,34 @@ void concatenarColasV1(Nodo*& c1, Nodo*& c2, Nodo*& cf)
 
 Nodo* concatenarColasV2(Nodo*& c1, Nodo*& c2)
 {
-	Nodo* colaConcat = NULL;
+	Nodo* cres;
+
+	if(c1 == NULL) {
+		cres = c2;
+	} else {
+		cres = c1;
+		while(c1->sig != NULL)
+			c1 = c1->sig;
+		c1->sig = c2;
+	}
+	c1 = NULL;
+	c2 = NULL;
+	return cres;
+}
+
+Nodo* concatenarColasV3(Nodo* c1, Nodo* c2) {
+	Nodo* cres = NULL;
 	while(c1 != NULL) {
-		agregar(colaConcat, c1->num);
+		int aux = c1->num;
+		agregar(cres, aux);
 		c1 = c1->sig;
 	}
 	while(c2 != NULL) {
-		agregar(colaConcat, c2->num);
+		int aux = c2->num;
+		agregar(cres, aux);
 		c2 = c2->sig;
 	}
-	return colaConcat;
+	return cres;
 }
 
 int main()
@@ -110,9 +128,28 @@ int main()
         Nodo* colaR = concatenarColasV2(cola1, cola2);
         mostrar(colaR);
 
-        cout << "cola1" <<endl;
+        // V3
+        agregar(cola1, 10);
+	agregar(cola1, 20);
+	agregar(cola1, 30);
+	cout << endl << "Cola 1 ingresamos: 10 20 30. Listamos:" << endl;
+	mostrar(cola1);
+
+	agregar(cola2, 325);
+	agregar(cola2, 12320);
+	agregar(cola2, 1532);
+	cout << endl << "Cola 2 ingresamos: 325 23320 1532. Listamos:" << endl;
+	mostrar(cola2);
+
+	cout << endl << "Ahora concatenamos las dos colas..." << endl;
+        mostrar(concatenarColasV3(cola1, cola2));
+
+        cout << endl << "Vamos a mostras las dos colas que quedaron intactas luego \nde la concatenacion" << endl << endl;
+
+        cout << "Cola 1" << endl;
         mostrar(cola1);
-        cout << "cola2" <<endl;
+
+        cout << "Cola 2" << endl;
         mostrar(cola2);
 
 	return 0;
