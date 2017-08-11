@@ -5,23 +5,36 @@ int main () {
 	fp = fopen ("archivo.c","r");
 
 	int charAnteriorFueBarra = 0;
-
 	char letra;
-	char siguienteLetra;
+	char siguienteChar;
+	int comentarioDeLineasMultiples = 0;
 
 	while (!feof(fp)) {
 		letra = getc(fp);
 		if (letra == '/' && !charAnteriorFueBarra) {
 			charAnteriorFueBarra = 1;
-			siguienteLetra = getc(fp);
-			if (siguienteLetra != '/')
+			siguienteChar = getc(fp);
+			if (siguienteChar == '*' && charAnteriorFueBarra) {
+				comentarioDeLineasMultiples = 1;
+				while(!feof(fp) && comentarioDeLineasMultiples) {
+					while(!feof(fp) && getc(fp) != '*') {}
+					if (!feof(fp)) {
+						siguienteChar = getc(fp);
+						if (siguienteChar == '/') {
+							comentarioDeLineasMultiples = 0;
+							charAnteriorFueBarra = 0;
+						}
+					}
+				}
+			} else if (siguienteChar == '/' && charAnteriorFueBarra) {
+				while(!feof(fp) && getc(fp) != '\n') {}
+				charAnteriorFueBarra = 0;
+			} else if (siguienteChar != '/') {
 				printf("%c", letra);
-			ungetc(siguienteLetra, fp);
-		} else if (letra == '/' && charAnteriorFueBarra) {
-			// Estoy en un comentario
-			while(!feof(fp) && getc(fp) != '\n') {}
-			printf("\n");
-		} else if (letra != '/') {
+				ungetc(siguienteChar, fp);
+			}			
+		}
+		else if (letra != '/') {
 			charAnteriorFueBarra = 0;
 			printf("%c",letra);
 		}
