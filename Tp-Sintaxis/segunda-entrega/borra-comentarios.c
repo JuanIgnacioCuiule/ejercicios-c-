@@ -11,7 +11,15 @@ int main () {
 
 	while (!feof(fp)) {
 		letra = getc(fp);
-		if (letra == '/' && !charAnteriorFueBarra) {
+		if (letra == '\"' || letra == '\'') {
+			printf("%c", letra);
+			do { 
+				siguienteChar = getc(fp);
+				printf("%c", siguienteChar);
+			}
+			while(siguienteChar != letra && !feof(fp));
+		}
+		else if (letra == '/' && !charAnteriorFueBarra) {
 			charAnteriorFueBarra = 1;
 			siguienteChar = getc(fp);
 			if (siguienteChar == '*' && charAnteriorFueBarra) {
