@@ -2,7 +2,9 @@
 
 int main () {
 	FILE *fp;
-	fp = fopen ("archivo.c","r");
+	FILE *final;
+	fp = fopen("archivo.c","r");
+	final = fopen("salida.c", "w");
 
 	int charAnteriorFueBarra = 0;
 	char letra;
@@ -12,12 +14,12 @@ int main () {
 	while (!feof(fp)) {
 		letra = getc(fp);
 		if (letra == '\"' || letra == '\'') {
-			printf("%c", letra);
-			do { 
+			fprintf(final, "%c", letra);
+			siguienteChar = getc(fp);
+			while(siguienteChar != letra && !feof(fp)) { 
+				fprintf(final, "%c", siguienteChar);
 				siguienteChar = getc(fp);
-				printf("%c", siguienteChar);
 			}
-			while(siguienteChar != letra && !feof(fp));
 		}
 		else if (letra == '/' && !charAnteriorFueBarra) {
 			charAnteriorFueBarra = 1;
@@ -38,16 +40,17 @@ int main () {
 				while(!feof(fp) && getc(fp) != '\n') {}
 				charAnteriorFueBarra = 0;
 			} else if (siguienteChar != '/') {
-				printf("%c", letra);
+				fprintf(final, "%c", letra);
 				ungetc(siguienteChar, fp);
 			}			
 		}
-		else if (letra != '/') {
+		else if (letra != '/' && !feof(fp)) {
 			charAnteriorFueBarra = 0;
-			printf("%c",letra);
+			fprintf(final, "%c", letra);
 		}
 	}
-	
-	printf("\n");
+
+	fclose(fp);
+	fclose(final);
 	return 0;	
 }
