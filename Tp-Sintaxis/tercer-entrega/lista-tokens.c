@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include "automata.h"
 
 char buffer[33];
-char *reservadas[4] = {"inicio", "fin", "escribir", "leer"};
 int i = 0;
 
 void limpiarBuffer() {
@@ -38,6 +38,11 @@ int esEspacio(char caracter) {
 			|| caracter == '\t';
 }
 
+int esOperadorAditivo(char caracter) {
+	return caracter == '+'
+			|| caracter == '-';
+}
+
 int esCaracterDePuntuacion(char caracter) {
 	return caracter == ','
 			|| caracter == ';'
@@ -45,13 +50,18 @@ int esCaracterDePuntuacion(char caracter) {
 			|| caracter == ')';
 }
 
+int esIdentificador() {
+	char primerChar = buffer[0];
+	return primerChar != '=' && !(primerChar >= '0' && primerChar <= '9');
+}
+
 int main () {
 	FILE *fp;
 	fp = fopen("archivo.micro","r");
 
-	while(!feof(fp)) {
+	while (!feof(fp)) {
 		char letra = getc(fp);
-		if (letra == '+' || letra == '-') {
+		if (esOperadorAditivo(letra)) {
 			printf("Operador aditivo: %c\n", letra);
 		}
 		else if (letra == ':') {
@@ -70,15 +80,23 @@ int main () {
 			printf("Caracter de puntuación: %c\n", letra);
 		}
 		else {
-			while(!feof(fp) && !esEspacio(letra)) {
+			while (!feof(fp) && !esEspacio(letra)) {
 				buffer[i] = letra;
 				i++;
 				letra = getc(fp);
+				if (esCaracterDePuntuacion(letra) || esOperadorAditivo(letra)) {
+					ungetc(letra, fp);
+					break;
+				}
 			}
 			if (esPalabraReservada()) {
 				printf("Palabra reservada: %s\n", buffer);
-			} else if (!feof(fp)){
-				if (!esEspacio(letra)) {
+			} else if (esConstanteNumerica(buffer)) {
+				printf("Constante numerica: %s\n", buffer);
+			} else if (!feof(fp) && buffer[0] != '\0'){
+				if (esIdentificador()) {
+					printf("Identifacor: %s\n", buffer);
+				} else {
 					printf("Ni idea: %s\n", buffer);
 				}
 			}
