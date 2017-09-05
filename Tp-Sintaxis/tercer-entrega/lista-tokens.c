@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 char buffer[33];
-char reservadas[][8] = {"inicio", "fin", "escribir", "leer"};
+char *reservadas[4] = {"inicio", "fin", "escribir", "leer"};
 int i = 0;
 
 void limpiarBuffer() {
@@ -26,10 +26,10 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int esPalabraReservada() {
-	return strcmp(buffer, reservadas[0]) == 0  // inicio
-			|| strcmp(buffer, reservadas[1]) == 0  // fin
-			|| strcmp(buffer, reservadas[2]) == 0  // escribir
-			|| strcmp(buffer, reservadas[3]) == 0; // leer
+	return strcmp(buffer, "inicio") == 0  // inicio
+			|| strcmp(buffer, "fin") == 0  // fin
+			|| strcmp(buffer, "escribir") == 0  // escribir
+			|| strcmp(buffer, "leer") == 0; // leer
 }
 
 int esEspacio(char caracter) {
@@ -38,21 +38,50 @@ int esEspacio(char caracter) {
 			|| caracter == '\t';
 }
 
+int esCaracterDePuntuacion(char caracter) {
+	return caracter == ','
+			|| caracter == ';'
+			|| caracter == '('
+			|| caracter == ')';
+}
+
 int main () {
 	FILE *fp;
 	fp = fopen("archivo.micro","r");
-	
+
 	while(!feof(fp)) {
 		char letra = getc(fp);
-		while(!feof(fp) && !esEspacio(letra)) {
-			buffer[i] = letra;
-			i++;
-			letra = getc(fp);
+		if (letra == '+' || letra == '-') {
+			printf("Operador aditivo: %c\n", letra);
 		}
-		if (esPalabraReservada()) {
-			printf("Palabra reservada: %s\n", buffer);
+		else if (letra == ':') {
+			char prox = getc(fp);
+			if (prox == '=' && !feof(fp)) {
+				printf("Asignación: :=\n");
+			} else if (feof(fp)) {
+				printf("Ni idea: %c\n", letra);
+				break;
+			} else {
+				ungetc(letra, fp);
+				ungetc(prox, fp);
+			}
 		}
-		limpiarBuffer();
+		else if(esCaracterDePuntuacion(letra)) {
+			printf("Caracter de puntuación: %c\n", letra);
+		}
+		else {
+			while(!feof(fp) && !esEspacio(letra)) {
+				buffer[i] = letra;
+				i++;
+				letra = getc(fp);
+			}
+			if (esPalabraReservada()) {
+				printf("Palabra reservada: %s\n", buffer);
+			} else if (!feof(fp)){
+				printf("Ni idea: %s\n", buffer);
+			}
+			limpiarBuffer();
+		}
 	}
 
 	fclose(fp);
