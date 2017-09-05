@@ -26,10 +26,10 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int esPalabraReservada() {
-	return strcmp(buffer, "inicio") == 0  // inicio
-			|| strcmp(buffer, "fin") == 0  // fin
-			|| strcmp(buffer, "escribir") == 0  // escribir
-			|| strcmp(buffer, "leer") == 0; // leer
+	return strcmp(buffer, "inicio") == 0
+			|| strcmp(buffer, "fin") == 0
+			|| strcmp(buffer, "escribir") == 0
+			|| strcmp(buffer, "leer") == 0;
 }
 
 int esEspacio(char caracter) {
@@ -62,7 +62,7 @@ int main () {
 				printf("Ni idea: %c\n", letra);
 				break;
 			} else {
-				ungetc(letra, fp);
+				printf("Ni idea: %c\n", letra);
 				ungetc(prox, fp);
 			}
 		}
@@ -78,7 +78,9 @@ int main () {
 			if (esPalabraReservada()) {
 				printf("Palabra reservada: %s\n", buffer);
 			} else if (!feof(fp)){
-				printf("Ni idea: %s\n", buffer);
+				if (!esEspacio(letra)) {
+					printf("Ni idea: %s\n", buffer);
+				}
 			}
 			limpiarBuffer();
 		}
