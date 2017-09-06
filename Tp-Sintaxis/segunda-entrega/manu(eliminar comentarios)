@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int letra;
+    FILE* Archivo;
+    Archivo=fopen("archivo.txt", "rt");
+
+    if(Archivo == NULL)
+    {
+        printf("Error al tratar de leer el archivo");
+        return 1;
+    }
+
+    while((letra=fgetc(Archivo))!=EOF)
+    {
+        if(letra=='/')
+        {
+            letra=fgetc(Archivo);
+
+            if(letra=='/')
+            {
+
+                while((letra=fgetc(Archivo))!='\n')
+                {
+                    letra=fgetc(Archivo);
+                }
+            }
+
+            if(letra=='*')
+            {
+            letra=fgetc(Archivo);
+
+            while((letra=fgetc(Archivo))!='*')
+            {
+                letra=fgetc(Archivo);
+
+            if(letra=='/')
+                {
+                    letra=fgetc(Archivo);
+                }
+            }
+            }
+          }
+
+        else
+        {
+            if(letra=='\n')
+            {
+             printf("\n");
+            }
+            else
+            {
+            putchar(letra);
+            }
+        }
+        }
+
+    fclose(Archivo);
+    return 0;
+}
