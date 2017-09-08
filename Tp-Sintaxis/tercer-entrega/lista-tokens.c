@@ -57,27 +57,27 @@ int esIdentificador() {
 
 int main () {
 	FILE *fp;
+	FILE *fn;
 	fp = fopen("archivo.micro","r");
+	fn = fopen("scanner.txt","w");
 
 	while (!feof(fp)) {
 		char letra = getc(fp);
 		if (esOperadorAditivo(letra)) {
-			printf("Operador aditivo: %c\n", letra);
+			fprintf(fn, "Operador aditivo: %c\n", letra);
 		}
 		else if (letra == ':') {
 			char prox = getc(fp);
 			if (prox == '=' && !feof(fp)) {
-				printf("Asignación: :=\n");
+				fprintf(fn, "Asignación: :=\n");
 			} else if (feof(fp)) {
-				printf("Ni idea: %c\n", letra);
 				break;
 			} else {
-				printf("Ni idea: %c\n", letra);
 				ungetc(prox, fp);
 			}
 		}
 		else if(esCaracterDePuntuacion(letra)) {
-			printf("Caracter de puntuación: %c\n", letra);
+			fprintf(fn, "Caracter de puntuación: %c\n", letra);
 		}
 		else {
 			while (!feof(fp) && !esEspacio(letra)) {
@@ -90,14 +90,12 @@ int main () {
 				}
 			}
 			if (esPalabraReservada()) {
-				printf("Palabra reservada: %s\n", buffer);
+				fprintf(fn, "Palabra reservada: %s\n", buffer);
 			} else if (esConstanteNumerica(buffer)) {
-				printf("Constante numerica: %s\n", buffer);
-			} else if (!feof(fp) && buffer[0] != '\0'){
+				fprintf(fn, "Constante numerica: %s\n", buffer);
+			} else if (!feof(fp) && buffer[0] != '\0') {
 				if (esIdentificador()) {
-					printf("Identifacor: %s\n", buffer);
-				} else {
-					printf("Ni idea: %s\n", buffer);
+					fprintf(fn, "Identifacor: %s\n", buffer);
 				}
 			}
 			limpiarBuffer();
@@ -105,6 +103,7 @@ int main () {
 	}
 
 	fclose(fp);
+	fclose(fn);
 	return 0;	
 }
 

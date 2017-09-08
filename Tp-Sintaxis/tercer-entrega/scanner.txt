@@ -1,0 +1,21 @@
+Palabra reservada: inicio
+Identifacor: valor
+Asignación: :=
+Constante numerica: 3
+Operador aditivo: +
+Constante numerica: 3
+Caracter de puntuación: ;
+Identifacor: valor2
+Asignación: :=
+Constante numerica: 4
+Operador aditivo: -
+Caracter de puntuación: (
+Constante numerica: 1
+Operador aditivo: +
+Constante numerica: 3
+Caracter de puntuación: )
+Caracter de puntuación: ;
+Identifacor: a
+Operador aditivo: +
+Identifacor: b
+Palabra reservada: fin
