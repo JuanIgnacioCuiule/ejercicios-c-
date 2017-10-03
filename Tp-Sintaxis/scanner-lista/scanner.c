@@ -2,6 +2,8 @@
 #include "automata.h"
 
 char buffer[33];
+char* tokens[] = {"INICIO", "FIN", "LEER", "ESCRIBIR", "ID", "CONSTANTE", "PARENIZQUIERDO", "PARENDERECHO",
+"PUNTOYCOMA", "COMA", "ASIGNACION", "SUMA", "RESTA", "FDT", "ERRORLEXICO"};
 int i = 0;
 
 void strcopy(char destino[], char origen[]) {
@@ -41,9 +43,13 @@ typedef enum {
 typedef struct Nodo {
   TOKEN token;
   char cadena[33];
-  //char cadena;
   struct Nodo* sig; 
 } Nodo;
+
+typedef struct Simbolo {
+  TOKEN token;
+  char cadena[33];
+} Simbolo;
 
 void agregar(Nodo** cola, TOKEN token, char cadena[]) {
   Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
@@ -61,10 +67,29 @@ void agregar(Nodo** cola, TOKEN token, char cadena[]) {
   }
 };
 
+void agregarSimbolo(Simbolo tabla[], TOKEN token, char cadena[]) {
+  int x = 0;
+  while (strcmp(tabla[x].cadena, cadena) != 0 && strcmp(tabla[x].cadena, "\0") != 0 && x < 100)
+    x++;
+  if(strcmp(tabla[x].cadena, "\0") == 0) {
+    Simbolo nuevo;
+    nuevo.token = token;
+    nuevo.cadena[0] = cadena[0];
+    strcopy(nuevo.cadena, cadena);
+    tabla[x] = nuevo;
+  }
+};
+
 void mostrar(Nodo* lista) {
   while (lista != NULL) {
-    printf("%d %s\n", lista->token, lista->cadena);
+    printf("%s %s\n", tokens[lista->token], lista->cadena);
     lista = lista->sig;
+  }
+}
+
+void mostrarTabla(Simbolo tabla[]) {
+  for(int i = 0; i < 100 && strcmp(tabla[i].cadena, "\0") != 0; i++) {
+    printf("El token es: %d, La cadena es: %s\n", tabla[i].token, tabla[i].cadena);
   }
 }
 
@@ -91,6 +116,11 @@ int esCaracterDePuntuacion(char caracter) {
       || caracter == ';'
       || caracter == '('
       || caracter == ')';
+}
+
+int esIdentificador() {
+  char primerChar = buffer[0];
+  return primerChar != '=' && !(primerChar >= '0' && primerChar <= '9');
 }
 
 // Devuelve el token correspondiente dada un char
@@ -131,15 +161,11 @@ TOKEN tokenCadena(char cadena[]) {
     return FIN;
 }
 
-int esIdentificador() {
-  char primerChar = buffer[0];
-  return primerChar != '=' && !(primerChar >= '0' && primerChar <= '9');
-}
-
 int main () {
   Nodo* lista = NULL;
   FILE *fp;
   fp = fopen("archivo.micro","r");
+  Simbolo tabla[100] = { {100,"\0"}  };
 
   while (!feof(fp)) {
     char letra = getc(fp);
@@ -159,7 +185,7 @@ int main () {
       }
     }
     else if(esCaracterDePuntuacion(letra)) {
-      char cadena[2] = "\0";
+      char cadena[2] = "_\0";
       cadena[0] = letra;
       agregar(&lista, token(letra), cadena);
     }
@@ -177,9 +203,11 @@ int main () {
         agregar(&lista, tokenCadena(buffer), buffer);
       } else if (esConstanteNumerica(buffer)) {
         agregar(&lista, CONSTANTE, buffer);
+        agregarSimbolo(tabla, CONSTANTE, buffer);
       } else if (!feof(fp) && buffer[0] != '\0') {
         if (esIdentificador()) {
           agregar(&lista, ID, buffer);
+          agregarSimbolo(tabla, ID, buffer);
         }
       }
       limpiarBuffer();
@@ -187,7 +215,9 @@ int main () {
   }
 
   fclose(fp);
+  printf("--- Lista de tokens y cadenas ---\n");
   mostrar(lista);
+  printf("--- Tabla de símbolos ---\n");
+  mostrarTabla(tabla);
   return 0; 
 }
-
