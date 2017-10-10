@@ -1,7 +1,9 @@
 inicio
-valor := 3 + 3;
+leer(valor, valor1);
+valor1 := 3 + 3;
 valor2 := 4 - (valor + 1 +3);
-valor := 2
+valor := 2;
+leer(valor);
 valor3 := 23;
 valor2 := valor + 3;
 fin
