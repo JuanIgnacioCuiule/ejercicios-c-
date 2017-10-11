@@ -1,11 +1,8 @@
+#include "headers/tokens.h"
+
 // solo para ver en consola
 char* tokens[] = {"INICIO", "FIN", "LEER", "ESCRIBIR", "ID", "CONSTANTE", "PARENIZQUIERDO", "PARENDERECHO",
 "PUNTOYCOMA", "COMA", "ASIGNACION", "SUMA", "RESTA", "FDT", "ERRORLEXICO"};
-
-typedef enum {
-  INICIO, FIN, LEER, ESCRIBIR, ID, CONSTANTE, PARENIZQUIERDO, PARENDERECHO,
-  PUNTOYCOMA, COMA, ASIGNACION, SUMA, RESTA, FDT, ERRORLEXICO
-} TOKEN;
 
 int esPalabraReservada() {
   return strcmp(buffer, "inicio") == 0

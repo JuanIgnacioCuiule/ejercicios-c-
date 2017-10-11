@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "headers/automata.h"
 
 const int TT[6][4] = {{5,1,5,5},
                       {1,1,3,2},

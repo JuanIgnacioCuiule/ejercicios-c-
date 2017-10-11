@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "automata.h"
-#include "aux.h"
-#include "tokens.h"
-#include "listaTokensTS.h"
+#include "automata.c"
+#include "aux.c"
+#include "tokens.c"
+#include "listaTokensTS.c"
 
 Nodo* lista = NULL;
 Simbolo tabla[100] = { {100,"\0"}  };

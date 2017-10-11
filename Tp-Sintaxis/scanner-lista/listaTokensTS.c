@@ -1,19 +1,12 @@
-typedef struct Nodo {
-  TOKEN token;
-  char cadena[33];
-  struct Nodo* sig; 
-} Nodo;
+#include "headers/listaTokensTS.h"
 
-typedef struct Simbolo {
-  TOKEN token;
-  char cadena[33];
-} Simbolo;
-
-// Agrega nodo (token:cadena)
+// Agrega nodo (ant:token:cadena:sig)
 void agregar(Nodo** cola, TOKEN token, char cadena[]) {
   Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
+  nuevo->ant = NULL;
+  nuevo->sig = NULL;
   nuevo->token = token;
-  nuevo->cadena[0] = cadena[0];
+  //nuevo->cadena[0] = cadena[0];
   strcopy(nuevo->cadena, cadena);
   if (*cola == NULL) {
     *cola = nuevo;
@@ -22,6 +15,7 @@ void agregar(Nodo** cola, TOKEN token, char cadena[]) {
     while (aux->sig != NULL) {
       aux = aux->sig;
     }
+    nuevo->ant = aux;
     aux->sig = nuevo;
   }
 };

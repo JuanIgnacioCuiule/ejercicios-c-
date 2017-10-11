@@ -1,3 +1,5 @@
+#include "headers/aux.h"
+
 void strcopy(char destino[], char origen[]) {
   int largoDestino = (sizeof(destino)/sizeof(char));
   int largoOrigen = (sizeof(destino)/sizeof(char));

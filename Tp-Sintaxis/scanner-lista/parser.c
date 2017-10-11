@@ -1,7 +1,21 @@
-#include "scanner.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "scanner.c"
+#include "headers/parser.h"
 
 Nodo* nodoActual;
 int hayToken = 0;
+
+int main() {
+  scanner();
+  objetivo();
+  // printf("--- Lista de tokens y cadenas ---\n");
+  // mostrar(lista);
+  // printf("--- Tabla de símbolos ---\n");
+  // mostrarTabla(tabla);
+  return 0;
+}
+
 TOKEN proximoToken() {
   if (!hayToken) {
     nodoActual = lista;
@@ -38,7 +52,7 @@ void listaSentencias() {
   TOKEN t = proximoToken();
   while(t == ID || t == LEER || t == ESCRIBIR) {
     sentencia(t);
-    printf("%s %s\n", tokens[nodoActual->token], nodoActual->cadena);
+    //printf("%s %s\n", tokens[nodoActual->token], nodoActual->cadena);
     t = proximoToken();
   }
   return;
@@ -58,7 +72,7 @@ void sentencia(TOKEN t) {
       printf("sentencia por leer\n");
       match(PARENIZQUIERDO);
       listaIdentificadores();
-      //match(PARENDERECHO);
+      match(PARENDERECHO);
       match(PUNTOYCOMA);
       break;
     case ESCRIBIR:
@@ -80,16 +94,7 @@ void listaIdentificadores() {
   for (TOKEN t = proximoToken(); t == COMA; t = proximoToken()) {
     match(ID);
   }
+  nodoActual = nodoActual->ant;
+
   return;
-}
-
-int main() {
-  scanner();
-
-  objetivo();
-  // printf("--- Lista de tokens y cadenas ---\n");
-  // mostrar(lista);
-  // printf("--- Tabla de símbolos ---\n");
-  // mostrarTabla(tabla);
-  return 0;
 }
