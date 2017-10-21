@@ -1,0 +1,7 @@
+inicio
+leer(valor);
+edad := 18 + a + 4;
+leer(valor, valor1);
+valor1 := 3 + 3;
+valor2 := 4 - (valor +3);
+fin
