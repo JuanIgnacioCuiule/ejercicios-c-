@@ -12,5 +12,6 @@ typedef struct Simbolo {
 
 void agregar(Nodo** cola, TOKEN token, char cadena[]);
 void agregarSimbolo(Simbolo tabla[], TOKEN token, char cadena[]);
+int estaEnTS(Simbolo tabla[], TOKEN token, char cadena[]);
 void mostrar(Nodo* lista);
 void mostrarTabla(Simbolo tabla[]);

@@ -34,6 +34,16 @@ void agregarSimbolo(Simbolo tabla[], TOKEN token, char cadena[]) {
   }
 };
 
+int estaEnTS(Simbolo tabla[], TOKEN token, char cadena[]) {
+  int x = 0;
+  while (strcmp(tabla[x].cadena, cadena) != 0 && strcmp(tabla[x].cadena, "\0") != 0 && x < 100)
+    x++;
+  if (strcmp(tabla[x].cadena, cadena) == 0)
+    return 1;
+  else
+    return 0;
+}
+
 // Muestra lista (token:cadena)
 void mostrar(Nodo* lista) {
   while (lista != NULL) {
