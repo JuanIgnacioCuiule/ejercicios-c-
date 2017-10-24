@@ -50,6 +50,10 @@ int scanner () {
         if (esIdentificador()) {
           agregar(&lista, ID, buffer);
           agregarSimbolo(tabla, ID, buffer);
+        } else {
+          agregar(&lista, ERRORLEXICO, buffer);
+          printf("Error lexico %s\n", buffer);
+          exit(1);
         }
       }
       limpiarBuffer();
