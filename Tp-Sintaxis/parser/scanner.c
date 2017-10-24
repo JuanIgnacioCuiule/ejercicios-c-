@@ -14,12 +14,12 @@ int scanner () {
     if (esOperadorAditivo(letra)) {
       char cadena[2] = "\0";
       cadena[0] = letra;
-      agregar(&lista, token(letra), cadena);
+      agregar(&lista, token(letra), cadena, linea);
     }
     else if (letra == ':') {
       char prox = getc(fp);
       if (prox == '=' && !feof(fp)) {
-        agregar(&lista, ASIGNACION, ":=");
+        agregar(&lista, ASIGNACION, ":=", linea);
       } else if (feof(fp)) {
         break;
       } else {
@@ -29,7 +29,7 @@ int scanner () {
     else if(esCaracterDePuntuacion(letra)) {
       char cadena[2] = "_\0";
       cadena[0] = letra;
-      agregar(&lista, token(letra), cadena);
+      agregar(&lista, token(letra), cadena, linea);
     }
     else {
       while (!feof(fp) && !esEspacio(letra)) {
@@ -42,24 +42,30 @@ int scanner () {
         }
       }
       if (esPalabraReservada()) {
-        agregar(&lista, tokenCadena(buffer), buffer);
+        agregar(&lista, tokenCadena(buffer), buffer, linea);
+        char prox = getc(fp);
+        if (prox != '(') {
+          linea++; 
+        } else {
+          ungetc(prox, fp);
+        }
       } else if (esConstanteNumerica(buffer)) {
-        agregar(&lista, CONSTANTE, buffer);
+        agregar(&lista, CONSTANTE, buffer, linea);
         agregarSimbolo(tabla, CONSTANTE, buffer);
       } else if (!feof(fp) && buffer[0] != '\0') {
         if (esIdentificador()) {
-          agregar(&lista, ID, buffer);
+          agregar(&lista, ID, buffer, linea);
           agregarSimbolo(tabla, ID, buffer);
         } else {
-          agregar(&lista, ERRORLEXICO, buffer);
-          printf("Error lexico %s\n", buffer);
+          agregar(&lista, ERRORLEXICO, buffer, linea);
+          printf("Error lexico \"%s\" en linea %d\n", buffer, linea);
           exit(1);
         }
       }
       limpiarBuffer();
     }
   }
-  agregar(&lista, FDT, "\0");
+  agregar(&lista, FDT, "\0", linea);
 
   fclose(fp);
   return 0; 

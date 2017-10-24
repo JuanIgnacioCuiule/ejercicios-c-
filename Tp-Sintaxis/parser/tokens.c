@@ -1,5 +1,7 @@
 #include "headers/tokens.h"
 
+int linea = 0;
+
 // solo para ver en consola
 char* tokens[] = {"INICIO", "FIN", "LEER", "ESCRIBIR", "ID", "CONSTANTE", "PARENIZQUIERDO", "PARENDERECHO",
 "PUNTOYCOMA", "COMA", "ASIGNACION", "SUMA", "RESTA", "FDT", "ERRORLEXICO"};
@@ -12,6 +14,9 @@ int esPalabraReservada() {
 }
 
 int esEspacio(char caracter) {
+  if (caracter == '\n') {
+    linea++;
+  }
   return caracter == ' '
       || caracter == '\n'
       || caracter == '\t';

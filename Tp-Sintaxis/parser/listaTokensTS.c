@@ -1,12 +1,12 @@
 #include "headers/listaTokensTS.h"
 
 // Agrega nodo (ant:token:cadena:sig)
-void agregar(Nodo** cola, TOKEN token, char cadena[]) {
+void agregar(Nodo** cola, TOKEN token, char cadena[], int linea) {
   Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
   nuevo->ant = NULL;
   nuevo->sig = NULL;
   nuevo->token = token;
-  //nuevo->cadena[0] = cadena[0];
+  nuevo->linea = linea;
   strcpy(nuevo->cadena, cadena);
   if (*cola == NULL) {
     *cola = nuevo;
@@ -47,7 +47,7 @@ int estaEnTS(Simbolo tabla[], TOKEN token, char cadena[]) {
 // Muestra lista (token:cadena)
 void mostrar(Nodo* lista) {
   while (lista != NULL) {
-    printf("%s %s\n", tokens[lista->token], lista->cadena);
+    printf("%s %s linea: %d\n", tokens[lista->token], lista->cadena, lista->linea);
     lista = lista->sig;
   }
 }

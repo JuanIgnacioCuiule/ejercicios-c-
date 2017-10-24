@@ -42,7 +42,7 @@ TOKEN proximoToken() {
 }
 
 void errorSintactico() {
-  printf("Error Sintactico\n");
+  printf("Error Sintactico en linea %d", nodoActual->linea);
   exit(1);
 }
 
@@ -188,7 +188,7 @@ void operadorAditivo(TOKEN *op) {
   if(t == SUMA || t == RESTA)
     *op = t;
   else {
-    printf("Error Sintactico");
+    printf("Error Sintactico en linea %d", nodoActual->linea);
     exit(1);
   }
 }
