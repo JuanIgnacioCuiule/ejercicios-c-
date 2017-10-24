@@ -6,6 +6,7 @@
 
 Nodo* nodoActual;
 int hayToken = 0;
+FILE *fs;
 
 /*
 * typedef struct Reg_expresion {
@@ -15,8 +16,17 @@ int hayToken = 0;
 * } Reg_expresion;
 */
 
+
 int main() {
+  fs = fopen("salida.txt","wr");
+
   scanner();
+  mostrar(lista);
+  for(int i = 0; i < 100 && strcmp(tabla[i].cadena, "\0") != 0; i++) {
+    if (tabla[i].token == ID) {
+      fprintf(fs, "Declarar %s\n", tabla[i].cadena);
+    }
+  }
   objetivo();
   return 0;
 }
@@ -33,6 +43,7 @@ TOKEN proximoToken() {
 
 void errorSintactico() {
   printf("Error Sintactico\n");
+  exit(1);
 }
 
 void match(TOKEN t) {
@@ -56,7 +67,6 @@ void listaSentencias() {
   while(t == ID || t == LEER || t == ESCRIBIR) {
     sentencia(t);
     t = proximoToken();
-    //printf("dentro while LS %s\n", tokens[t]);
   }
   nodoActual = nodoActual->ant;
   return;
@@ -70,9 +80,8 @@ void sentencia(TOKEN t) {
       strcpy(identificador, nodoActual->cadena);
       match(ASIGNACION);
       expresion(&res);
-      //nodoActual = nodoActual->ant;
       match(PUNTOYCOMA);
-      printf("Asignar %s %s\n", res.cadena, identificador);
+      fprintf(fs ,"Asignar %s %s\n", res.cadena, identificador);
       break;
     case LEER:
       match(PARENIZQUIERDO);
@@ -94,14 +103,13 @@ void sentencia(TOKEN t) {
 
 void listaIdentificadores() {
   match(ID);
-  printf("Leer %s\n", nodoActual->cadena);
+  fprintf(fs, "Leer %s\n", nodoActual->cadena);
   TOKEN t = proximoToken();
   while(t == COMA) {
     match(ID);
-    printf("Leer %s\n", nodoActual->cadena);
+    fprintf(fs, "Leer %s\n", nodoActual->cadena);
     t = proximoToken();
   }
-  //printf("token en LI %s\n", tokens[nodoActual->token]);
   nodoActual = nodoActual->ant;
   return;
 }
@@ -153,11 +161,11 @@ Reg_expresion genInfijo(Reg_expresion e1, TOKEN op, Reg_expresion e2) {
   strcat(cadenaTemporal, cadenaNumero);
   if (!estaEnTS(tabla, ID, cadenaTemporal)) {
     agregarSimbolo(tabla, ID, cadenaTemporal);
-    printf("Declarar %s\n", cadenaTemporal);
+    fprintf(fs, "Declarar %s\n", cadenaTemporal);
   }
   reg.token = ID;
   strcpy(reg.cadena, cadenaTemporal);
-  printf("%s %s %s %s\n", cadenaOp, e1.cadena, e2.cadena, cadenaTemporal);
+  fprintf(fs, "%s %s %s %s\n", cadenaOp, e1.cadena, e2.cadena, cadenaTemporal);
   return reg;
 }
 
@@ -179,6 +187,8 @@ void operadorAditivo(TOKEN *op) {
   TOKEN t = nodoActual->token;
   if(t == SUMA || t == RESTA)
     *op = t;
-  else
+  else {
     printf("Error Sintactico");
+    exit(1);
+  }
 }
