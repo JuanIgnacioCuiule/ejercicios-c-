@@ -1,8 +1,5 @@
 inicio
-leer(valor);
-edad := 18 + a + 4;
-leer(valor, valor1);
-valor1 := 3 + 3;
-valor4 := (3+2) - 2;
-escribir(2 + 2, 3, 4 + a);
+valor1 := (100 + 3) - 2;
+valor3 := 100 - 2;
+valor4 := (323 + (5 - 2) + 4) - 2;
 fin

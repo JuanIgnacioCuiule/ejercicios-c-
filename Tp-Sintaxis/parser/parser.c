@@ -108,6 +108,7 @@ void listaIdentificadores() {
 
 void primaria(Reg_expresion * operando) {
   TOKEN t = proximoToken();
+  Reg_expresion res;
   switch(t) {
     case ID:
       operando->token = ID;
@@ -119,8 +120,9 @@ void primaria(Reg_expresion * operando) {
       operando->constante = atoi(nodoActual->cadena);
       break;
     case PARENIZQUIERDO:
-      expresion(&operando);
+      expresion(&res);
       match(PARENDERECHO);
+      *operando = res;
       break;
   }
 }
@@ -128,11 +130,9 @@ void primaria(Reg_expresion * operando) {
 void listaExpresiones(void) {
   Reg_expresion reg;
   expresion(&reg);
-  printf("Escribir %s\n", reg.cadena);
   TOKEN t = proximoToken();
   while(t == COMA) {
     expresion(&reg);
-    printf("Escribir %s\n", reg.cadena);
     t = proximoToken();
   }
   nodoActual = nodoActual->ant;
@@ -155,6 +155,7 @@ Reg_expresion genInfijo(Reg_expresion e1, TOKEN op, Reg_expresion e2) {
     agregarSimbolo(tabla, ID, cadenaTemporal);
     printf("Declarar %s\n", cadenaTemporal);
   }
+  reg.token = ID;
   strcpy(reg.cadena, cadenaTemporal);
   printf("%s %s %s %s\n", cadenaOp, e1.cadena, e2.cadena, cadenaTemporal);
   return reg;
