@@ -4,34 +4,24 @@
 #include "scanner.c"
 #include "headers/parser.h"
 
-Nodo* nodoActual;
+Nodo *nodoActual;
 int hayToken = 0;
 FILE *fs;
 
-/*
-* typedef struct Reg_expresion {
-*  TOKEN token;
-*  char cadena[32];
-*  int constante;
-* } Reg_expresion;
-*/
-
-
 int main() {
-  fs = fopen("salida.txt","wr");
-
+  fs = fopen("salida.txt", "wr");
   scanner();
-  mostrar(lista);
-  for(int i = 0; i < 100 && strcmp(tabla[i].cadena, "\0") != 0; i++) {
+  for (int i = 0; i < 100 && strcmp(tabla[i].cadena, "\0") != 0; i++) {
     if (tabla[i].token == ID) {
       fprintf(fs, "Declarar %s\n", tabla[i].cadena);
+      printf("Declarar %s\n", tabla[i].cadena);
     }
   }
   objetivo();
   return 0;
 }
 
-TOKEN proximoToken() {
+TOKEN proximoToken(){
   if (!hayToken) {
     nodoActual = lista;
     hayToken = 1;
@@ -42,7 +32,7 @@ TOKEN proximoToken() {
 }
 
 void errorSintactico() {
-  printf("Error Sintactico en linea %d", nodoActual->linea);
+  printf("Error Sintactico en linea %d\n", nodoActual->linea);
   exit(1);
 }
 
@@ -64,7 +54,7 @@ void programa() {
 
 void listaSentencias() {
   TOKEN t = proximoToken();
-  while(t == ID || t == LEER || t == ESCRIBIR) {
+  while (t == ID || t == LEER || t == ESCRIBIR) {
     sentencia(t);
     t = proximoToken();
   }
@@ -75,13 +65,14 @@ void listaSentencias() {
 void sentencia(TOKEN t) {
   Reg_expresion res;
   char identificador[32];
-  switch(t) {
+  switch (t) {
     case ID:
       strcpy(identificador, nodoActual->cadena);
       match(ASIGNACION);
       expresion(&res);
       match(PUNTOYCOMA);
-      fprintf(fs ,"Asignar %s %s\n", res.cadena, identificador);
+      fprintf(fs, "Asignar %s %s\n", res.cadena, identificador);
+      printf("Asignar %s %s\n", res.cadena, identificador);
       break;
     case LEER:
       match(PARENIZQUIERDO);
@@ -104,20 +95,22 @@ void sentencia(TOKEN t) {
 void listaIdentificadores() {
   match(ID);
   fprintf(fs, "Leer %s\n", nodoActual->cadena);
+  printf("Leer %s\n", nodoActual->cadena);
   TOKEN t = proximoToken();
-  while(t == COMA) {
+  while (t == COMA) {
     match(ID);
     fprintf(fs, "Leer %s\n", nodoActual->cadena);
+    printf("Leer %s\n", nodoActual->cadena);
     t = proximoToken();
   }
   nodoActual = nodoActual->ant;
   return;
 }
 
-void primaria(Reg_expresion * operando) {
+void primaria(Reg_expresion *operando) {
   TOKEN t = proximoToken();
   Reg_expresion res;
-  switch(t) {
+  switch (t) {
     case ID:
       operando->token = ID;
       strcpy(operando->cadena, nodoActual->cadena);
@@ -139,7 +132,7 @@ void listaExpresiones(void) {
   Reg_expresion reg;
   expresion(&reg);
   TOKEN t = proximoToken();
-  while(t == COMA) {
+  while (t == COMA) {
     expresion(&reg);
     t = proximoToken();
   }
@@ -154,7 +147,7 @@ Reg_expresion genInfijo(Reg_expresion e1, TOKEN op, Reg_expresion e2) {
   char cadenaOp[32];
   if (op == SUMA)
     strcpy(cadenaOp, "Sumar");
-  else 
+  else
     strcpy(cadenaOp, "Restar");
   sprintf(cadenaNumero, "%d", temporal);
   temporal++;
@@ -162,14 +155,16 @@ Reg_expresion genInfijo(Reg_expresion e1, TOKEN op, Reg_expresion e2) {
   if (!estaEnTS(tabla, ID, cadenaTemporal)) {
     agregarSimbolo(tabla, ID, cadenaTemporal);
     fprintf(fs, "Declarar %s\n", cadenaTemporal);
+    printf("Declarar %s\n", cadenaTemporal);
   }
   reg.token = ID;
   strcpy(reg.cadena, cadenaTemporal);
   fprintf(fs, "%s %s %s %s\n", cadenaOp, e1.cadena, e2.cadena, cadenaTemporal);
+  printf("%s %s %s %s\n", cadenaOp, e1.cadena, e2.cadena, cadenaTemporal);
   return reg;
 }
 
-void expresion(Reg_expresion * resultado) {
+void expresion(Reg_expresion *resultado) {
   Reg_expresion operandoIzq, operandoDer;
   TOKEN op;
   TOKEN t;
@@ -185,7 +180,7 @@ void expresion(Reg_expresion * resultado) {
 
 void operadorAditivo(TOKEN *op) {
   TOKEN t = nodoActual->token;
-  if(t == SUMA || t == RESTA)
+  if (t == SUMA || t == RESTA)
     *op = t;
   else {
     printf("Error Sintactico en linea %d", nodoActual->linea);

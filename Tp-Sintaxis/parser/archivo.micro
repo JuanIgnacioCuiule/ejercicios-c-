@@ -1,5 +1,5 @@
 inicio
-valor1 := (100a + 3) - 2;
+valor1 := (100 + 3) - 2;
 leer(var, a);
 valor3 := 100 - 2;
 valor4 := (323 + (5 - 2) + 4) - 2;

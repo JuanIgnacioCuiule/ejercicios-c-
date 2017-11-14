@@ -12,7 +12,7 @@ int scanner () {
   while (!feof(fp)) {
     char letra = getc(fp);
     if (esOperadorAditivo(letra)) {
-      char cadena[2] = "\0";
+      char cadena[0] = "";
       cadena[0] = letra;
       agregar(&lista, token(letra), cadena, linea);
     }
@@ -27,7 +27,7 @@ int scanner () {
       }
     }
     else if(esCaracterDePuntuacion(letra)) {
-      char cadena[2] = "_\0";
+      char cadena[0] = "";
       cadena[0] = letra;
       agregar(&lista, token(letra), cadena, linea);
     }
@@ -36,7 +36,7 @@ int scanner () {
         buffer[i] = letra;
         i++;
         letra = getc(fp);
-        if (esCaracterDePuntuacion(letra) || esOperadorAditivo(letra)) {
+        if (esCaracterDePuntuacion(letra) || esOperadorAditivo(letra) || esEspacio(letra)) {
           ungetc(letra, fp);
           break;
         }

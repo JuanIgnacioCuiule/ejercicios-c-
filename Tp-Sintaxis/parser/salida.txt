@@ -1,0 +1,24 @@
+Declarar valor1
+Declarar var
+Declarar a
+Declarar valor3
+Declarar valor4
+Declarar temp&1
+Sumar 100 3 temp&1
+Declarar temp&2
+Restar temp&1 2 temp&2
+Asignar temp&2 valor1
+Leer var
+Leer a
+Declarar temp&3
+Restar 100 2 temp&3
+Asignar temp&3 valor3
+Declarar temp&4
+Restar 5 2 temp&4
+Declarar temp&5
+Sumar 323 temp&4 temp&5
+Declarar temp&6
+Sumar temp&5 4 temp&6
+Declarar temp&7
+Restar temp&6 2 temp&7
+Asignar temp&7 valor4
